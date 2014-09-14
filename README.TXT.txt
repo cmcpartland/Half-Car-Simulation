@@ -9,19 +9,22 @@ This program allows the user to simulate the motion of a half-car (essentially a
 
 System Requirements======================================================================
 
-This program requires Python 2.7 to be installed on the computer.
+Windows XP and higher
+Python 2.7
+Pythics: https://code.google.com/p/pythics/
 
 Operation Instructions===================================================================
 
-With Python 2.7 installed double-click the file labeled ChordBook.py. 
+Install Pythics by finding the program in the downloads section here: https://code.google.com/p/pythics/
 
-1) Select the guitar's tuning.
-2) Select the notes being played on the guitar.
-3) Click the 'Identify' button to identify the chord.
+With Pythics installed, select File > Open > select the Final.html file. The program will launch. 
+
+The initial vehicle characteristics are intially set to reasonable values for an average family sedan, and from there they can be changed. The user can save these values into a profile to loaded in a later session.
+
+Choose the type of road: square wave, sinusoidal, and flat surface. The wave height and wave frequency can be changed.
 
 Files====================================================================================
 
-ChordBook.py
-__init__.py
-ChordBookUI.py
-ChordBookUI.ui
+Final.py
+Final.html
+

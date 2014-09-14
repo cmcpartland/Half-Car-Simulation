@@ -25,10 +25,10 @@ table {align: center}
 <body>
 <h1>Half-Car Simulation</h1>
 
-<object classid='Plot2D' id='car_plot' width='100%' height='400'>
+<object classid='mpl.Plot2D' id='car_plot' width='100%' height='400'>
 </object>
 <br/>
-<object classid='Plot2D' id='com_plot' width='100%' height='200'>
+<object classid='mpl.Plot2D' id='com_plot' width='100%' height='200'>
 </object>
 
 <br/>
@@ -65,7 +65,7 @@ table {align: center}
 <tr><td width='33%'> 
 <object classid='Button' width='100%'>
     <param name='label' value='Run'/>
-    <param name='action' value='Final.run'/>
+    <param name='actions' value='{Final.run}'/>
 </object>
 </td><td width='33%'> 
 <object classid='Button' id='stop' width='100%'>
@@ -75,7 +75,7 @@ table {align: center}
 </td><td width='33%'> 
 <object classid='Button' width='100%'>
     <param name='label' value='Clear'/>
-    <param name='action' value='Final.clear'/>
+    <param name='actions' value='{Final.clear}'/>
 </object>
 </td></tr>
 </table>
@@ -92,7 +92,7 @@ table {align: center}
 <h6>Road Profile (Choose a curve)</h6>
 <object id='road_choice' classid='ChoiceButton' width='100%'>
 	<param name='choices' value="['Flat Surface', 'Sinusoid (Asin(wx + phi))', 'Square Wave']"/>
-	<param name='action' value='Final.open_inputs'/>
+	<param name='actions' value='{Final.open_inputs}'/>
 </object>
 </td><td width='10%'>
 <h6>A</h6>
