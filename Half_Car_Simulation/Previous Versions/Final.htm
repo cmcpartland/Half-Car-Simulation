@@ -1,0 +1,343 @@
+<!--                                                                        -->
+<!-- Physics 1321 Final Project                                             -->
+<!-- University of Pittsburgh                                               -->
+<!-- Original written by Brian D'Urso                                       -->
+<!--                                                                        -->
+
+<html>
+<head>
+<title>Half-Car Simulation</title>
+<style type="text/css">
+body {background-color: #eeeeee; margin: 10px; padding: 5px}
+a {align: left; color: black; font-size: 8pt; font-family: default; font-style: normal; font-weight: normal}
+p {align: left; color: black; font-size: 8pt; font-family: default; font-style: normal; font-weight: normal}
+h1 {align: center; font-size: 18pt; font-family: default; font-style: normal; font-weight: bold}
+h2 {align: left; font-size: 16pt; font-family: default; font-style: normal; font-weight: normal}
+h3 {align: left; font-size: 14pt; font-family: default; font-style: normal; font-weight: normal}
+h4 {align: left; font-size: 12pt; font-family: default; font-style: normal; font-weight: normal}
+h5 {align: left; font-size: 10pt; font-family: default; font-style: normal; font-weight: normal}
+h6 {align: left; font-size: 8pt; font-family: default; font-style: normal; font-weight: normal}
+object {align: left}
+table {align: center}
+</style>
+</head>
+
+<body>
+<h1>Half-Car Simulation</h1>
+
+<object classid='Plot2D' id='car_plot' width='100%' height='400'>
+</object>
+<br/>
+<object classid='Plot2D' id='com_plot' width='100%' height='200'>
+</object>
+
+<br/>
+<table width='100%'>
+<tr><td width='20%'> 
+<h6>Front Car Height</h6>
+<object id='y_car_front_box' classid='TextBox' width='100%'>
+</object>
+</td><td width='20%'>
+<h6>Rear Car Height</h6>
+<object id='y_car_rear_box' classid='TextBox' width='100%'>
+</object>
+</td><td width='20%'>
+<h6>Center of Mass Height</h6>
+<object id='y_com_box' classid='TextBox' width='100%'>
+</object>
+</td><td width='20%'>
+<h6>Front Tire Height</h6>
+<object id='y_front_tire_box' classid='TextBox' width='100%'>
+</object>
+</td><td width='20%'>
+<h6>Rear Tire Height</h6>
+<object id='y_rear_tire_box' classid='TextBox' width='100%'>
+</object>
+</td><td width='20%'>
+<object id='plot_com_choice' classid='CheckBox' width='100%'>
+	<param name='label' value='Plot Center of Mass'/>
+	<param name='save' value='True'/>
+</object>
+</td></tr>
+</table>
+<br/>
+<table width='100%'>
+<tr><td width='33%'> 
+<object classid='Button' width='100%'>
+    <param name='label' value='Run'/>
+    <param name='action' value='Final.run'/>
+</object>
+</td><td width='33%'> 
+<object classid='Button' id='stop' width='100%'>
+    <param name='toggle' value='True'/>
+    <param name='label' value='Stop'/>
+</object>
+</td><td width='33%'> 
+<object classid='Button' width='100%'>
+    <param name='label' value='Clear'/>
+    <param name='action' value='Final.clear'/>
+</object>
+</td></tr>
+</table>
+
+<br/>
+<table width='100%'>
+<tr><td width='50%'> 
+<h6>Velocity in x-direction (kmph)</h6>
+<object id='v_0_box' classid='NumBox' width='100%'>
+	<param name='digits' value='5'/>
+	<param name='minimum' value='.001'/>
+</object>
+</td><td width='30%'> 
+<h6>Road Profile (Choose a curve)</h6>
+<object id='road_choice' classid='ChoiceButton' width='100%'>
+	<param name='choices' value="['Flat Surface', 'Sinusoid (Asin(wx + phi))', 'Square Wave']"/>
+	<param name='action' value='Final.open_inputs'/>
+</object>
+</td><td width='10%'>
+<h6>A</h6>
+<object id='A_box' classid='NumBox' width='100%'>
+	<param name='maximum' value='3'/>
+	<param name='digits' value='4'/>
+</object>
+</td><td width='10%'> 
+<h6>w</h6>
+<object id='omega_box' classid='NumBox' width='100%'>
+	<param name='maximum' value='5'/>
+	<param name='digits' value='4'/>
+</object>
+</td><td width='10%'> 
+<h6>phi</h6>
+<object id='phi_box' classid='NumBox' width='100%'>
+	<param name='digits' value='4'/>
+</object>
+</td><td width='10%'>
+<h6>Initial Height (m)</h6>
+<object id='height_box' classid='NumBox' width='100%'>
+	<param name='digits' value='4'/>
+</object>
+</td></tr>
+</table>
+
+<br/>
+
+<hr/>
+<h4>Suspension Characteristics</h4>
+<br/>
+<table width='100%'>
+<tr><td width='25%'>
+<h6>K Front Right Spring (N/m)</h6>
+<object id='k_frs_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>K Front Left Spring (N/m)</h6>
+<object id='k_fls_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>K Rear Right Spring (N/m)</h6>
+<object id='k_rrs_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>K Rear Left Spring (N/m)</h6>
+<object id='k_rls_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td></tr>
+
+<tr><td width='25%'>
+<h6>Free Length Rear Right Spring (m)</h6>
+<object id='fl_rrs_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>Free Length Rear LeftSpring (m)</h6>
+<object id='fl_rls_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>Free Length Front Right Spring (m)</h6>
+<object id='fl_frs_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>Free Length Front Left Spring (m)</h6>
+<object id='fl_fls_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td></tr>
+
+<tr><td width='25%'> 
+<h6>B Front Right Spring (N s/m)</h6>
+<object id='b_frs_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>B Front Left Spring (N s/m)</h6>
+<object id='b_fls_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>B Rear Right Spring (N s/m)</h6>
+<object id='b_rrs_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>B RearLeft Spring (N s/m)</h6>
+<object id='b_rls_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td></tr>
+</table>
+
+<hr/>
+<h4>Tire Characteristics</h4>
+<br/>
+<table width='100%'>
+<tr><td width='25%'>
+<h6>K Front Right Tire (N/m)</h6>
+<object id='k_frt_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'> 
+<h6>K Front Left Tire (N/m)</h6>
+<object id='k_flt_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'> 
+<h6>K Rear Right Tire (N/m)</h6>
+<object id='k_rrt_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'> 
+<h6>K Rear Right Tire (N/m)</h6>
+<object id='k_rlt_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td></tr>
+<tr><td width='25%'> 
+<h6>Mass Front Right Tire (kg)</h6>
+<object id='m_frt_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>Mass Front Left Tire (kg)</h6>
+<object id='m_flt_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>Mass Rear Right Tire (kg)</h6>
+<object id='m_rrt_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td><td width='25%'> 
+<h6>Mass Rear Left Tire (kg)</h6>
+<object id='m_rlt_box' classid='NumBox' width='100%'>
+    <param name='digits' value='4'/>
+</object>
+</td></tr>
+<tr><td width='25%'> 
+<h6>B Front Right Tire (N s/m)</h6>
+<object id='b_frt_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'> 
+<h6>B Front Left Tire (N s/m)</h6>
+<object id='b_flt_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'> 
+<h6>B Rear Right Tire (N s/m)</h6>
+<object id='b_rrt_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'>
+<h6>B Rear Left Tire (N s/m)</h6>
+<object id='b_rlt_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td></tr>
+<tr><td width='25%'>
+<h6>Radius Front Right Tire (m)</h6>
+<object id='r_Fr_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'> 
+<h6>Radius Front Left Tire (m)</h6>
+<object id='r_Fl_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'> 
+<h6>Radius Rear Right Tire (m)</h6>
+<object id='r_Rr_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='25%'> 
+<h6>Radius Rear Left Tire (m)</h6>
+<object id='r_Rl_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td></tr>
+</table>
+
+<hr/>
+<h4>Vehicle Body Characteristics</h4>
+<br/>
+<table width='100%'>
+<tr><td width='33.33%'>
+<h6>Distance from C.o.M. to Front Tire (m)</h6>
+<object id='Lf_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='33.33%'>
+
+<h6>Distance from C.o.M. to Rear Tire (m)</h6>
+<object id='Lr_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='33.33%'>
+
+<h6>Distance from C.o.M. to Right side (m)</h6>
+<object id='Wr_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='33.33%'>
+
+<h6>Distance from C.o.M. to Left Side (m)</h6>
+<object id='Wl_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td><td width='33.33%'>
+<h6>Mass of the Vehicle (kg)</h6>
+<object id='m_c_box' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td></tr>
+</table>
+
+
+<hr/>
+<object classid='TextIOBox' id='messages' width='100%' height='100'>
+</object>
+
+<hr/>
+<h3>Python Shell</h3>
+<object classid='Shell' id='shell' width='100%' height='200'>
+    <param name='initialization_action' value='Final.initialize_shell'/>
+</object>
+
+<br/>
+<object classid='ScriptLoader' width='0%'>
+    <param name='filename' value='Final'/>
+    <param name='label' value=''/>
+</object>
+
+<object classid='ParameterLoader' width='0%'>
+    <param name='filename' value='Final.txt'/>
+    <param name='label' value=''/>
+</object>
+
+</body>
+</html>

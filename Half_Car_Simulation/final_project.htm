@@ -1,0 +1,200 @@
+<!--                                                                        -->
+<!-- Physics 1321 Final Project                                             -->
+<!-- University of Pittsburgh                                               -->
+<!-- Original written by Brian D'Urso                                       -->
+<!--                                                                        -->
+
+<html>
+<head>
+<title>Final Project</title>
+<style type="text/css">
+body {background-color: #eeeeee; margin: 10px; padding: 5px}
+a {align: left; color: black; font-size: 8pt; font-family: default; font-style: normal; font-weight: normal}
+p {align: left; color: black; font-size: 8pt; font-family: default; font-style: normal; font-weight: normal}
+h1 {align: center; font-size: 18pt; font-family: default; font-style: normal; font-weight: bold}
+h2 {align: left; font-size: 16pt; font-family: default; font-style: normal; font-weight: normal}
+h3 {align: left; font-size: 14pt; font-family: default; font-style: normal; font-weight: normal}
+h4 {align: left; font-size: 12pt; font-family: default; font-style: normal; font-weight: normal}
+h5 {align: left; font-size: 10pt; font-family: default; font-style: normal; font-weight: normal}
+h6 {align: left; font-size: 8pt; font-family: default; font-style: normal; font-weight: normal}
+object {align: left}
+table {align: center}
+</style>
+</head>
+
+<body>
+<h1>Physics 1321 Final Project</h1>
+
+<object classid='Plot2D' id='plot_1' width='100%' height='300'>
+</object>
+
+<br/>
+<table width='100%'>
+<tr><td width='33%'> 
+<object classid='Button' width='100%'>
+    <param name='label' value='Run'/>
+    <param name='action' value='Final.run'/>
+</object>
+</td><td width='33%'> 
+<object classid='Button' id='stop' width='100%'>
+    <param name='toggle' value='True'/>
+    <param name='label' value='Stop'/>
+</object>
+</td><td width='33%'> 
+<object classid='Button' width='100%'>
+    <param name='label' value='Clear'/>
+    <param name='action' value='Final.clear'/>
+</object>
+</td></tr>
+</table>
+
+
+<hr/>
+<table width='100%'><div class='cells'>
+<tr>
+
+<td>
+<h6>int_input_1</h6>
+<object id='k_fs_box' classid='NumBox' width='100%'>
+    <param name='digits' value='0'/>
+</object>
+</td>
+
+<td>
+<h6>int_input_2</h6>
+<object id='int_input_2' classid='NumBox' width='100%'>
+    <param name='digits' value='0'/>
+</object>
+</td>
+
+<td>
+<h6>int_input_3</h6>
+<object id='int_input_3' classid='NumBox' width='100%'>
+    <param name='digits' value='0'/>
+</object>
+</td>
+
+<td>
+<h6>int_input_4</h6>
+<object id='int_input_4' classid='NumBox' width='100%'>
+    <param name='digits' value='0'/>
+</object>
+</td>
+
+</tr><tr>
+
+<td>
+<h6>int_input_5</h6>
+<object id='int_input_5' classid='NumBox' width='100%'>
+    <param name='digits' value='0'/>
+</object>
+</td>
+
+<td>
+<h6>int_input_6</h6>
+<object id='int_input_6' classid='NumBox' width='100%'>
+    <param name='digits' value='0'/>
+</object>
+</td>
+
+<td>
+<h6>int_input_7</h6>
+<object id='int_input_7' classid='NumBox' width='100%'>
+    <param name='digits' value='0'/>
+</object>
+</td>
+
+<td>
+<h6>int_input_8</h6>
+<object id='int_input_8' classid='NumBox' width='100%'>
+    <param name='digits' value='0'/>
+</object>
+</td>
+
+
+</tr><tr>
+
+<td> 
+<h6>float_input_9</h6>
+<object id='float_input_9' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td>
+
+<td> 
+<h6>float_input_10</h6>
+<object id='float_input_10' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td>
+
+<td> 
+<h6>float_input_11</h6>
+<object id='float_input_11' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td>
+
+<td> 
+<h6>float_input_12</h6>
+<object id='float_input_12' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td>
+
+</tr><tr>
+
+<td> 
+<h6>float_input_13</h6>
+<object id='float_input_13' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td>
+
+<td> 
+<h6>float_input_14</h6>
+<object id='float_input_14' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td>
+
+<td> 
+<h6>float_input_15</h6>
+<object id='float_input_15' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td>
+
+<td> 
+<h6>float_input_16</h6>
+<object id='float_input_16' classid='NumBox' width='100%'>
+    <param name='notation' value='scientific'/>
+</object>
+</td>
+
+</tr></div></table>
+
+
+<hr/>
+<object classid='TextIOBox' id='messages' width='100%' height='100'>
+</object>
+
+<hr/>
+<h3>Python Shell</h3>
+<object classid='Shell' id='shell' width='100%' height='200'>
+    <param name='initialization_action' value='final_project.initialize_shell'/>
+</object>
+
+<br/>
+<object classid='ScriptLoader' width='0%'>
+    <param name='filename' value='final_project'/>
+    <param name='label' value=''/>
+</object>
+
+<object classid='ParameterLoader' width='0%'>
+    <param name='filename' value='final_project.txt'/>
+    <param name='label' value=''/>
+</object>
+
+</body>
+</html>
